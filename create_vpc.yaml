@@ -1,0 +1,64 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create VPC
+      ec2_vpc_net:
+        name: Module5
+        cidr_block: 10.10.0.0/16
+        tags:
+          Module: 5
+        region: "us-west-1"
+        state: present
+      register: vpc
+    - name: debug
+      debug: var=vpc
+    - name: create public subnet
+      ec2_vpc_subnet:
+        vpc_id: "{{ vpc.vpc.id }}"
+        tags:
+          Name: Module5 public
+          Module: 5
+        cidr: 10.10.0.0/24
+        state: present
+      register: public_subnet
+    - name: create private subnet
+      ec2_vpc_subnet:
+        vpc_id: "{{ vpc.vpc.id }}"
+        tags:
+          Name: Module5 public
+        cidr: 10.10.1.0/24
+        region: "us-west-1"
+        state: present
+      register: private_subnet
+    - name: create internet gateway
+      ec2_vpc_igw:
+        vpc_id: "{{ vpc.vpc.id }}"
+        tags:
+          Name: Module5 gateway
+          Module: "5"
+        state: present
+      register: igw
+    - name: create public route table
+      ec2_vpc_route_table:
+        vpc_id:  "{{ vpc.vpc.id }}"
+        tags:
+          Name: Module5
+        subnets:
+          - "{{ public_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ igw.gateway_id }}"
+    - name: create security group
+      ec2_group:
+        name: M5-dev
+        description: dev security group
+        vpc_id: "{{ vpc.vpc.id }}"
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+              - 80
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all to ports 22 and 80
+        state: present

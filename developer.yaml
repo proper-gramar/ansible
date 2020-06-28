@@ -1,0 +1,29 @@
+---
+- hosts: al2
+  become: yes
+  tasks:
+   - name: Install emacs-nox  
+     package:
+       name: emacs-nox
+       state: present
+   - name: install nano
+     package:
+       name: nano
+       state: present
+   - name: install apache
+     package:
+       name: httpd
+       state: present
+   - name: start apache
+     service:
+       name: httpd
+       state: started
+       enabled: true
+   - name: install python3-devel
+     package:
+       name: install python3-devel
+       state: present
+   - name: install boto3
+     package:
+       name: pip3 install boto3 --user
+       state: present
