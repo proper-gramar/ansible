@@ -14,10 +14,47 @@
         instance_type: t3.nano
         image: "{{ ami_id }}"
         instance_tags:
-          Name: ansible-ec2
+          Name: ansible-ec2-5.0
           Module: 5
         wait: yes
         vpc_subnet_id: "{{ public_subnet.subnet.id }}"
+        assign_public_ip: yes
         exact_count: 1
         count_tag:
           Name: ansible-ec2
+  tasks:
+    - name: python ec2 instance
+      ec2:
+        key_name: EC2 Pair
+        group: M5-dev
+        instance_type: t3.nano
+        image: "{{ ami_id }}"
+        instance_tags:
+          Name: ansible-ec2-5.1
+          Module: 5
+        wait: yes
+        vpc_subnet_id: "{{ public_subnet.subnet.id }}"
+        assign_public_ip: yes
+        exact_count: 1
+        count_tag:
+          Name: ansible-ec2
+  tasks:
+    - name: python ec2 instance
+      ec2:
+        key_name: EC2 Pair
+        group: M5-dev
+        instance_type: t3.nano
+        image: "{{ ami_id }}"
+        instance_tags:
+          Name: ansible-ec2-5.2
+          Module: 5
+        wait: yes
+        vpc_subnet_id: "{{ public_subnet.subnet.id }}"
+        assign_public_ip: yes
+        exact_count: 1
+        count_tag:
+          Name: ansible-ec2
+
+
+
+
