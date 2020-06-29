@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  user: ec2-user
+  become: true
+  tasks:
+    - name: clone git repo
+      git:
+        repo: "https://github.com/proper-gramar/py-recov.git"
+        dest: python-image-gallery/
+        refspec: '+refs/pull/*:refs/heads/*'
+    - name: install flask
+      pip: 
+        name: flask
+        executable: pip3.7
+    - name: install psycopg2
+      pip: 
+        name: psycopg2-binary
+        executable: pip3.7
+    - name: "set env"
+      shell: "export FLASK_APP=python-image-gallery/gallery/ui/app.py"
+    - name: start flask
+      shell: "flask run"

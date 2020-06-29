@@ -5,3 +5,4 @@
 - import_playbook: create_rds.yaml
 - import_playbook: create_autoscaler.yaml
 - import_playbook: create_loadbalancer.yaml
+- import_playbook: deploy_site.yaml
