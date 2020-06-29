@@ -7,6 +7,32 @@
       package:
         name: python3-devel
         state: present
+    - name: install postgres
+      package:
+        name: postgresql
+        state: present
+    # - name: start nginx
+    #   package:
+    #     name: nginx 
+    #     state: latest
+    # - name: nginx start
+    #   service:
+    #     name: nginx
+    #     state: started
+    # - name: install tree
+    #   package:
+    #     name: tree
+    #     state: present
+    - name: ensure nginx is at the latest version
+      package: 
+        name: nginx1
+        state: latest
+    - name: start nginx
+      service:
+          name: nginx1
+          state: started
+ 
+
 #cannot find host for some reason... tag not working....
 #need to add all dependencies for server to run
 #postgres, python3 devel, psycopg2, boto3, flask, nginx, git, tree

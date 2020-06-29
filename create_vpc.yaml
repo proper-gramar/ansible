@@ -4,7 +4,7 @@
   tasks:
     - name: Create VPC
       ec2_vpc_net:
-        name: Module5
+        name: image-gallery
         cidr_block: 10.10.0.0/16
         tags:
           Module: 5
@@ -51,7 +51,7 @@
             gateway_id: "{{ igw.gateway_id }}"
     - name: create security group
       ec2_group:
-        name: M5-dev
+        name: M5-dev-final-sg
         description: dev security group
         vpc_id: "{{ vpc.vpc.id }}"
         rules:

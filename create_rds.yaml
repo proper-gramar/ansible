@@ -1,0 +1,29 @@
+# ---
+# - tasks:
+#   local_action:
+#     module: rds
+#     command: restore
+#     snapshot: ansible-snapshot
+#     instance_name: image-gallery
+#     region: us-west-1
+#     subnet: ig-private-dbgrp
+#     publicly_accessible: no
+#     wait: yes
+#     wait_timeout: 500
+#     tags:
+#       Module: 5
+#     register: rds
+   
+
+---
+- hosts: localhost
+  tasks:
+    - name: rds restore
+      rds:
+        command: restore
+        instance_name: Module5
+        snapshot: ansible-snapshot
+        region: 'us-west-1'
+        db_engine: postgres
+        instance_type: db.t2.micro
+        username: image-gallery
