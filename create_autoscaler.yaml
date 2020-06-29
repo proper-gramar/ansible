@@ -1,1 +1,14 @@
 ---
+- hosts: localhost
+  tasks:
+    - name: autoscaler-setup
+      ec2_asg: 
+        name: launch-template
+        launch_template:
+          version: '7'
+          launch_template_name: 'm4-LT'
+          launch_template_id: 'lt-01d0f045b02eca6b2'
+        min_size: 1
+        max_size: 3
+        desired_capacity: 1
+        vpc_zone_identifier: ['subnet-0c96767ad4a0036f4']

@@ -1,1 +1,29 @@
 ---
+- hosts: localhost
+  tasks:
+    - name: create target group
+      elb_target_group:
+        name: mr-target-group1
+        protocol: https
+        port: 443
+        vpc_id: "vpc-0d6235d7f0c9a7730"
+        state: present
+    - name: create load balancer
+      elb_application_lb:
+        name: m5-NLB
+        security_groups:
+          - M5-dev-final-sg - 2
+        subnets:
+          - subnet-0e1e45b1282bf0902
+          - subnet-0b48495f3902170a2
+        listeners:
+          - Protocol: HTTPS
+            Port: 443
+            SslPolicy: ELBSecurityPolicy-2016-08
+            Certificates:
+              - CertificateArn: arn:aws:acm:us-west-1:036753333186:certificate/86d5a4ef-218d-4883-95bd-76a0c0ebc741
+            DefaultActions:
+              - Type: forward
+                TargetGroupName: mr-target-group1
+        state: present
+      
